@@ -32,6 +32,11 @@ async function run() {
       res.send("Craft server bd is running...");
     });
 
+    app.get("/crafts", async (req, res) => {
+      const cursor =  craftCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
     app.post("/crafts", async (req, res) => {
       const craft = req.body;
