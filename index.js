@@ -27,6 +27,7 @@ async function run() {
     // await client.connect();
 
     const craftCollection = client.db("craftDB").collection("crafts");
+    const craftSubCollection = client.db('craftDB').collection('craftSubcategories')
 
     app.get("/", async (req, res) => {
       res.send("Craft server bd is running...");
@@ -81,6 +82,22 @@ async function run() {
       const result = await craftCollection.deleteOne(query);
       res.send(result);
     });
+
+    // Craft Subcategories operation:
+
+    app.get('/craft-subcategories', async(req, res)=>{
+      const cursor = craftSubCollection.find() 
+      const result = await cursor.toArray()
+      res.send(result)
+    })
+
+    app.get('/craft-subcategories/:subCategoryName', async(req, res)=>{
+      const name = req.params.subCategoryName
+      const query = {subcategory_name: name}
+      const cursor = craftCollection.find(query)
+      const result = await cursor.toArray()
+      res.send(result)
+    })
 
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
