@@ -59,6 +59,22 @@ async function run() {
       res.send(result);
     });
 
+    app.put("/update-craft/:id", async (req, res) => {
+      const id = req.params.id;
+      const craft = req.body;
+      const query = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateCraft = {
+        $set: { ...craft },
+      };
+      const result = await craftCollection.updateOne(
+        query,
+        updateCraft,
+        options
+      );
+      res.send(result);
+    });
+
     app.delete("/crafts/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
