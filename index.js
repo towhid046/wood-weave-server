@@ -33,29 +33,36 @@ async function run() {
     });
 
     app.get("/crafts", async (req, res) => {
-      const cursor =  craftCollection.find();
+      const cursor = craftCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     });
 
-    app.get('/crafts/:id', async(req, res)=>{
-      const id = req.params.id
-      const query = {_id: new ObjectId(id)}
-      const result  = await craftCollection.findOne(query)
-      res.send(result)
-    })
+    app.get("/crafts/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await craftCollection.findOne(query);
+      res.send(result);
+    });
 
-    app.get('/user-crafts/:email', async(req, res)=>{
-      const email = req.params.email
-      const query = {user_email: email}
-      const cursor = craftCollection.find(query)
-      const result = await cursor.toArray()
-      res.send(result)
-    })
+    app.get("/user-crafts/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { user_email: email };
+      const cursor = craftCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
     app.post("/crafts", async (req, res) => {
       const craft = req.body;
-      const result = await  craftCollection.insertOne(craft);
+      const result = await craftCollection.insertOne(craft);
+      res.send(result);
+    });
+
+    app.delete("/crafts/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await craftCollection.deleteOne(query);
       res.send(result);
     });
 
