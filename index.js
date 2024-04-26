@@ -45,6 +45,14 @@ async function run() {
       res.send(result)
     })
 
+    app.get('/user-crafts/:email', async(req, res)=>{
+      const email = req.params.email
+      const query = {user_email: email}
+      const cursor = craftCollection.find(query)
+      const result = await cursor.toArray()
+      res.send(result)
+    })
+
     app.post("/crafts", async (req, res) => {
       const craft = req.body;
       const result = await  craftCollection.insertOne(craft);
